@@ -4,54 +4,117 @@
   <meta charset="UTF-8">
   <title>For You ❤️</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       margin: 0;
       height: 100vh;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
     }
+
     .card {
       background: white;
-      padding: 30px;
-      border-radius: 15px;
-      text-align: center;
-      width: 90%;
-      max-width: 400px;
-    }
-    button {
-      padding: 12px 20px;
-      background: #ff4d6d;
-      border: none;
-      color: white;
+      padding: 35px;
       border-radius: 20px;
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      animation: fadeIn 1.2s ease;
+    }
+
+    h2 {
+      color: #ff4d6d;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+
+    button {
+      padding: 12px 22px;
+      border: none;
+      border-radius: 25px;
       font-size: 16px;
-      margin-top: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .next {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    .yes {
+      background: #38b000;
+      color: white;
+      margin-right: 10px;
+    }
+
+    .no {
+      background: #adb5bd;
+      color: black;
+      position: relative;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
+
   <div class="card">
-    <h2 id="msg">Hey… I made this for you ❤️</h2>
-    <button onclick="next()">Next</button>
+    <h2 id="msg">Hey… I wanted to ask you something 💌</h2>
+
+    <button class="next" id="nextBtn" onclick="nextMsg()">Next</button>
+
+    <div id="choices" class="hidden">
+      <button class="yes" onclick="yes()">Yes 💖</button>
+      <button class="no" id="noBtn" onclick="moveNo()">No 🙈</button>
+    </div>
   </div>
 
   <script>
     const messages = [
-      "You make my days brighter 🌸",
-      "You make my heart calmer 💕",
-      "Every moment with you matters",
-      "So… will you be my Valentine? 💌"
+      "I don’t say this enough, but you matter to me.",
+      "You make ordinary days feel special.",
+      "You feel like home in human form.",
+      "So I was thinking…"
     ];
+
     let i = 0;
-    function next() {
+
+    function nextMsg() {
       if (i < messages.length) {
         document.getElementById("msg").innerText = messages[i++];
+      } else {
+        document.getElementById("msg").innerText = "Will you be my Valentine? 💘";
+        document.getElementById("nextBtn").classList.add("hidden");
+        document.getElementById("choices").classList.remove("hidden");
       }
     }
+
+    function yes() {
+      document.getElementById("msg").innerText =
+        "You just made my heart very happy ❤️";
+      document.getElementById("choices").classList.add("hidden");
+    }
+
+    function moveNo() {
+      const btn = document.getElementById("noBtn");
+      btn.style.left = Math.random() * 120 - 60 + "px";
+      btn.style.top = Math.random() * 120 - 60 + "px";
+    }
   </script>
+
 </body>
 </html>
