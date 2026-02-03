@@ -121,7 +121,7 @@ function nextStep() {
             const yesBtn = document.createElement("button");
             yesBtn.innerText = "YES ❤️";
             yesBtn.style.marginRight = "20px";
-            yesBtn.onclick = () => { showSaranghe(); };
+            yesBtn.onclick = () => { showFinalStep(); };
             document.querySelector(".card").appendChild(yesBtn);
 
             const noBtn = document.createElement("button");
@@ -141,28 +141,14 @@ function nextStep() {
     }
 }
 
-function showSaranghe() {
+function showFinalStep() {
     // Remove YES/NO buttons
     document.querySelectorAll("button").forEach(b => b.remove());
 
-    // Show "Saranghe babi 🥹"
+    // Step 7: final message
     messageEl.innerText = steps[step-1];
 
-    // Add button for final sparkle step
-    const finishBtn = document.createElement("button");
-    finishBtn.innerText = "Finish 💖";
-    finishBtn.onclick = finalSparkles;
-    document.querySelector(".card").appendChild(finishBtn);
-}
-
-function finalSparkles() {
-    // Remove final button
-    document.querySelectorAll("button").forEach(b => b.remove());
-
-    // Keep the final message
-    messageEl.innerText = steps[step-1];
-
-    // Add interactive sparkles
+    // Add sparkles
     for(let i=0; i<20; i++) setTimeout(createSparkle, i*100);
 
     // Clicking anywhere adds more sparkles
