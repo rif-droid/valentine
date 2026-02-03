@@ -68,14 +68,10 @@
         100% { transform: scale(0.5); opacity: 0.5; }
     }
 
-    /* Flicker animation for final NO button */
-    @keyframes flicker {
-        0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
-        20%, 22%, 24%, 55% { opacity: 0; }
-    }
-
-    .flicker {
-        animation: flicker 1s infinite;
+    /* NO button fade animation */
+    @keyframes fadeOut {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
     }
 </style>
 </head>
@@ -92,8 +88,7 @@ const steps = [
     "Ar nai 🌚",
     "Now that you came here, I want to ask you something…",
     "Will you be my Valentine? 💖",
-    "Saranghe babi 🥹",
-    "I’m so happy you’re here ❤️"
+    "Saranghe babi 🥹"
 ];
 
 let step = 0;
@@ -116,14 +111,16 @@ setInterval(createSparkle, 1000);
 function nextStep() {
     step++;
     if(step <= steps.length) {
-        if(step === 3) { // Step 4: playful "Do not touch this button"
+        // Step 4: playful "Do not touch this button"
+        if(step === 3) {
             messageEl.innerText = steps[step-1];
             button.innerText = "Do not touch this button";
             button.style.position = "relative";
             button.style.left = "0px";
             button.onmouseover = null;
         }
-        else if(step === 5) { // Step 6: Valentine question
+        // Step 6: Valentine question
+        else if(step === 5) {
             messageEl.innerText = steps[step-1];
             button.style.display = "none";
 
@@ -137,19 +134,11 @@ function nextStep() {
             noBtn.innerText = "NO ❌";
             document.querySelector(".card").appendChild(noBtn);
 
-            // NO button floats automatically
-            let dirX = 2;
-            let dirY = 1.5;
-            setInterval(() => {
-                const rect = noBtn.getBoundingClientRect();
-                let left = rect.left + dirX;
-                let top = rect.top + dirY;
-                if(left < 0 || left > window.innerWidth - rect.width) dirX *= -1;
-                if(top < 0 || top > window.innerHeight - rect.height) dirY *= -1;
-                noBtn.style.position = "absolute";
-                noBtn.style.left = left + "px";
-                noBtn.style.top = top + "px";
-            }, 20);
+            // NO button dims and fades away
+            setTimeout(() => {
+                noBtn.style.transition = "opacity 2s ease";
+                noBtn.style.opacity = "0";
+            }, 500); // starts fading after half a second
         }
         else {
             messageEl.innerText = steps[step-1];
@@ -164,33 +153,12 @@ function showSaranghe() {
 
     // Show "Saranghe babi 🥹"
     messageEl.innerText = steps[step-1];
-    step++;
 
-    // Add Next button for final step
-    const nextFinal = document.createElement("button");
-    nextFinal.innerText = "Next 💖";
-    nextFinal.onclick = finalLoveAnimation;
-    document.querySelector(".card").appendChild(nextFinal);
-}
-
-function finalLoveAnimation() {
-    // Remove previous button
-    document.querySelectorAll("button").forEach(b => b.remove());
-
-    // Show final love message
-    messageEl.innerText = steps[step-1];
-
-    // Sparkles
-    for(let i=0; i<20; i++) setTimeout(createSparkle, i*100);
-
-    // Add playful final NO button that flickers
-    const finalNo = document.createElement("button");
-    finalNo.innerText = "No 🙁";
-    finalNo.className = "flicker";
-    document.querySelector(".card").appendChild(finalNo);
-
-    // Clicking anywhere generates sparkles
+    // Final step: clicking anywhere adds sparkles
     document.body.onclick = createSparkle;
+
+    // Optional: small subtle sparkles around text
+    for(let i=0; i<20; i++) setTimeout(createSparkle, i*100);
 }
 </script>
 </body>
