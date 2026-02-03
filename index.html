@@ -88,6 +88,7 @@ let step = 0; // tracks current step
 const messageEl = document.getElementById('message');
 const button = document.getElementById('nextBtn');
 
+// create single sparkle
 function createSparkle() {
     const sparkle = document.createElement('div');
     sparkle.className = 'sparkle';
@@ -98,13 +99,14 @@ function createSparkle() {
     setTimeout(() => sparkle.remove(), 2000);
 }
 
-// continuous subtle sparkles
+// continuous sparkles
 setInterval(createSparkle, 1000);
 
 function nextStep() {
     if(step < steps.length) {
         step++;
-        // Step 3: playful "Do not touch this button"
+
+        // playful "Do not touch this button"
         if(step === 3) {
             messageEl.innerText = steps[step-1];
             button.innerText = "Do not touch this button";
@@ -124,12 +126,13 @@ function nextStep() {
             noBtn.innerText = "NO ❌";
             document.querySelector(".card").appendChild(noBtn);
 
-            // NO button dims/fades away
+            // NO button fades away
             setTimeout(() => {
                 noBtn.style.transition = "opacity 2s ease";
                 noBtn.style.opacity = "0";
             }, 500);
-        } else {
+        } 
+        else {
             messageEl.innerText = steps[step-1];
             button.innerText = "Next 🌟";
         }
@@ -140,11 +143,11 @@ function showFinalStep() {
     // Remove all buttons
     document.querySelectorAll("button").forEach(b => b.remove());
 
-    // Show final message
+    // Final message
     messageEl.innerText = "Saranghe babi 🥹";
 
-    // Add interactive sparkles
-    for(let i = 0; i < 20; i++) setTimeout(createSparkle, i*100);
+    // Burst of sparkles
+    for(let i=0; i<30; i++) setTimeout(createSparkle, i*100);
 
     // Clicking anywhere adds more sparkles
     document.body.onclick = createSparkle;
