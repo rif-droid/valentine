@@ -67,6 +67,16 @@
         50% { transform: scale(1.2); opacity: 1; }
         100% { transform: scale(0.5); opacity: 0.5; }
     }
+
+    /* Flicker animation for final NO button */
+    @keyframes flicker {
+        0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+        20%, 22%, 24%, 55% { opacity: 0; }
+    }
+
+    .flicker {
+        animation: flicker 1s infinite;
+    }
 </style>
 </head>
 <body>
@@ -106,20 +116,17 @@ setInterval(createSparkle, 1000);
 function nextStep() {
     step++;
     if(step <= steps.length) {
-        // Step 4 (index 3): playful "Do not touch this button"
-        if(step === 3) {
+        if(step === 3) { // Step 4: playful "Do not touch this button"
             messageEl.innerText = steps[step-1];
             button.innerText = "Do not touch this button";
             button.style.position = "relative";
             button.style.left = "0px";
             button.onmouseover = null;
         }
-        // Step 6 (index 5): Valentine question
-        else if(step === 5) {
+        else if(step === 5) { // Step 6: Valentine question
             messageEl.innerText = steps[step-1];
             button.style.display = "none";
 
-            // Create YES/NO buttons
             const yesBtn = document.createElement("button");
             yesBtn.innerText = "YES ❤️";
             yesBtn.style.marginRight = "20px";
@@ -162,21 +169,27 @@ function showSaranghe() {
     // Add Next button for final step
     const nextFinal = document.createElement("button");
     nextFinal.innerText = "Next 💖";
-    nextFinal.onclick = loveAnimation;
+    nextFinal.onclick = finalLoveAnimation;
     document.querySelector(".card").appendChild(nextFinal);
 }
 
-function loveAnimation() {
-    // Remove final button
+function finalLoveAnimation() {
+    // Remove previous button
     document.querySelectorAll("button").forEach(b => b.remove());
 
     // Show final love message
     messageEl.innerText = steps[step-1];
 
-    // sparkles
+    // Sparkles
     for(let i=0; i<20; i++) setTimeout(createSparkle, i*100);
 
-    // clicking anywhere creates sparkles
+    // Add playful final NO button that flickers
+    const finalNo = document.createElement("button");
+    finalNo.innerText = "No 🙁";
+    finalNo.className = "flicker";
+    document.querySelector(".card").appendChild(finalNo);
+
+    // Clicking anywhere generates sparkles
     document.body.onclick = createSparkle;
 }
 </script>
