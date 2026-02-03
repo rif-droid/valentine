@@ -85,7 +85,7 @@ const steps = [
     "Saranghe babi 🥹"
 ];
 
-let step = 0;
+let step = 0; // tracks current step
 const messageEl = document.getElementById('message');
 const button = document.getElementById('nextBtn');
 
@@ -109,9 +109,6 @@ function nextStep() {
         if(step === 3) {
             messageEl.innerText = steps[step-1];
             button.innerText = "Do not touch this button";
-            button.style.position = "relative";
-            button.style.left = "0px";
-            button.onmouseover = null;
         }
         // Step 6: Valentine question
         else if(step === 5) {
@@ -128,7 +125,7 @@ function nextStep() {
             noBtn.innerText = "NO ❌";
             document.querySelector(".card").appendChild(noBtn);
 
-            // NO button dims and fades away
+            // NO button dims/fades away
             setTimeout(() => {
                 noBtn.style.transition = "opacity 2s ease";
                 noBtn.style.opacity = "0";
@@ -148,7 +145,7 @@ function showFinalStep() {
     // Step 7: final message "Saranghe babi 🥹"
     messageEl.innerText = steps[step-1];
 
-    // Add sparkles
+    // Add interactive sparkles
     for(let i=0; i<20; i++) setTimeout(createSparkle, i*100);
 
     // Clicking anywhere adds more sparkles
