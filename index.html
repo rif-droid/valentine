@@ -1,120 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>For You ❤️</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>For You</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Poppins', sans-serif;
-      overflow: hidden;
-    }
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(120deg, #ffdde1, #ee9ca7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+  }
 
-    .card {
-      background: white;
-      padding: 35px;
-      border-radius: 20px;
-      width: 90%;
-      max-width: 420px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      animation: fadeIn 1.2s ease;
-    }
+  .card {
+    background: rgba(255,255,255,0.95);
+    padding: 35px;
+    border-radius: 22px;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  }
 
-    h2 {
-      color: #ff4d6d;
-      margin-bottom: 20px;
-      min-height: 60px;
-    }
+  #text {
+    font-size: 20px;
+    color: #333;
+    min-height: 80px;
+    animation: breathe 4s ease-in-out infinite;
+  }
 
-    button {
-      padding: 12px 22px;
-      border: none;
-      border-radius: 25px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+  @keyframes breathe {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+  }
 
-    .next {
-      background: #ff4d6d;
-      color: white;
-    }
+  button {
+    margin-top: 25px;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 25px;
+    background: #ff5c8a;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+  }
 
-    .yes {
-      background: #38b000;
-      color: white;
-      margin-right: 10px;
-    }
+  button:hover {
+    transform: scale(1.05);
+  }
 
-    .no {
-      background: #adb5bd;
-      color: black;
-      position: relative;
-    }
+  .float {
+    animation: float 3s ease-in-out infinite;
+  }
 
-    .hidden {
-      display: none;
-    }
+  @keyframes float {
+    0%,100% { top: 0; }
+    50% { top: -8px; }
+  }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-  </style>
+  .hidden { display: none; }
+
+  .hold {
+    background: #6c757d;
+  }
+</style>
 </head>
+
 <body>
 
-  <div class="card">
-    <h2 id="msg">Hey… I wanted to ask you something 💌</h2>
+<div class="card">
+  <div id="text"></div>
+  <button id="btn" class="float">Okay</button>
+</div>
 
-    <button class="next" id="nextBtn" onclick="nextMsg()">Next</button>
+<script>
+  const scenes = [
+    "Hey… don’t rush.",
+    "I wanted this moment to feel quiet.",
+    "Some people feel loud.",
+    "Some feel like home.",
+    "You don’t arrive… you settle.",
+    "Before I say anything else—"
+  ];
 
-    <div id="choices" class="hidden">
-      <button class="yes" onclick="yes()">Yes 💖</button>
-      <button class="no" id="noBtn" onclick="moveNo()">No 🙁</button>
-    </div>
-  </div>
+  let scene = 0;
+  let typing = false;
+  const textEl = document.getElementById("text");
+  const btn = document.getElementById("btn");
 
-  <script>
-    const messages = [
-      "I don’t say this enough, but you matter to me.",
-      "You make ordinary days feel special.",
-      "You feel like home in human form.",
-      "So I was thinking…"
-    ];
-
-    let i = 0;
-
-    function nextMsg() {
-      if (i < messages.length) {
-        document.getElementById("msg").innerText = messages[i++];
-      } else {
-        document.getElementById("msg").innerText = "Will you be my Valentine? 💘";
-        document.getElementById("nextBtn").classList.add("hidden");
-        document.getElementById("choices").classList.remove("hidden");
-      }
+  function typeText(text, i = 0) {
+    if (i === 0) textEl.innerHTML = "";
+    if (i < text.length) {
+      textEl.innerHTML += text.charAt(i);
+      setTimeout(() => typeText(text, i + 1), 40);
+    } else {
+      typing = false;
     }
+  }
 
-    function yes() {
-      document.getElementById("msg").innerText =
-        "You just made my heart very happy ❤️";
-      document.getElementById("choices").classList.add("hidden");
-    }
+  function nextScene() {
+    if (typing) return;
 
-    function moveNo() {
-      const btn = document.getElementById("noBtn");
-      btn.style.left = Math.random() * 120 - 60 + "px";
-      btn.style.top = Math.random() * 120 - 60 + "px";
+    if (scene < scenes.length) {
+      typing = true;
+      typeText(scenes[scene]);
+      scene++;
+    } else if (scene === scenes.length) {
+      btn.innerText = "Don’t press this";
+      btn.onclick = tease;
+      scene++;
     }
-  </script>
+  }
+
+  function tease() {
+    btn.style.left = Math.random() * 120 - 60 + "px";
+    btn.style.top = Math.random() * 120 - 60 + "px";
+    textEl.innerHTML = "Okay… you caught me.";
+    btn.innerText = "Hold for a moment";
+    btn.classList.remove("float");
+    btn.classList.add("hold");
+    btn.onmousedown = holdStart;
+  }
+
+  let holdTimer;
+  function holdStart() {
+    textEl.innerHTML = "Just stay here…";
+    holdTimer = setTimeout(finalMoment, 2000);
+  }
+
+  function finalMoment() {
+    textEl.innerHTML =
+      "I don’t know how else to ask this.<br><br><strong>Will you be my Valentine?</strong> 💗";
+    btn.innerText = "Yes";
+    btn.classList.remove("hold");
+    btn.onclick = yes;
+  }
+
+  function yes() {
+    document.body.style.background =
+      "linear-gradient(120deg, #fbc2eb, #a6c1ee)";
+    textEl.innerHTML =
+      "This moment exists<br>because you pressed something.<br><br>💖";
+    btn.classList.add("hidden");
+  }
+
+  btn.onclick = nextScene;
+  nextScene();
+</script>
 
 </body>
 </html>
