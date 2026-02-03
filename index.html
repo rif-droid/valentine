@@ -67,12 +67,6 @@
         50% { transform: scale(1.2); opacity: 1; }
         100% { transform: scale(0.5); opacity: 0.5; }
     }
-
-    /* NO button fade animation */
-    @keyframes fadeOut {
-        0% { opacity: 1; }
-        100% { opacity: 0; }
-    }
 </style>
 </head>
 <body>
@@ -138,7 +132,7 @@ function nextStep() {
             setTimeout(() => {
                 noBtn.style.transition = "opacity 2s ease";
                 noBtn.style.opacity = "0";
-            }, 500); // starts fading after half a second
+            }, 500);
         }
         else {
             messageEl.innerText = steps[step-1];
@@ -154,11 +148,25 @@ function showSaranghe() {
     // Show "Saranghe babi 🥹"
     messageEl.innerText = steps[step-1];
 
-    // Final step: clicking anywhere adds sparkles
-    document.body.onclick = createSparkle;
+    // Add button for final sparkle step
+    const finishBtn = document.createElement("button");
+    finishBtn.innerText = "Finish 💖";
+    finishBtn.onclick = finalSparkles;
+    document.querySelector(".card").appendChild(finishBtn);
+}
 
-    // Optional: small subtle sparkles around text
+function finalSparkles() {
+    // Remove final button
+    document.querySelectorAll("button").forEach(b => b.remove());
+
+    // Keep the final message
+    messageEl.innerText = steps[step-1];
+
+    // Add interactive sparkles
     for(let i=0; i<20; i++) setTimeout(createSparkle, i*100);
+
+    // Clicking anywhere adds more sparkles
+    document.body.onclick = createSparkle;
 }
 </script>
 </body>
