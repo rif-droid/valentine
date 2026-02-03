@@ -81,8 +81,7 @@ const steps = [
     "You made me realize that a person can feel like home 🏡",
     "Ar nai 🌚",
     "Now that you came here, I want to ask you something…",
-    "Will you be my Valentine? 💖",
-    "Saranghe babi 🥹"
+    "Will you be my Valentine? 💖"
 ];
 
 let step = 0; // tracks current step
@@ -103,14 +102,14 @@ function createSparkle() {
 setInterval(createSparkle, 1000);
 
 function nextStep() {
-    step++;
-    if(step <= steps.length) {
-        // Step 4: playful "Do not touch this button"
+    if(step < steps.length) {
+        step++;
+        // Step 3: playful "Do not touch this button"
         if(step === 3) {
             messageEl.innerText = steps[step-1];
             button.innerText = "Do not touch this button";
         }
-        // Step 6: Valentine question
+        // Valentine question
         else if(step === 5) {
             messageEl.innerText = steps[step-1];
             button.style.display = "none";
@@ -118,7 +117,7 @@ function nextStep() {
             const yesBtn = document.createElement("button");
             yesBtn.innerText = "YES ❤️";
             yesBtn.style.marginRight = "20px";
-            yesBtn.onclick = () => { showFinalStep(); };
+            yesBtn.onclick = showFinalStep;
             document.querySelector(".card").appendChild(yesBtn);
 
             const noBtn = document.createElement("button");
@@ -130,8 +129,7 @@ function nextStep() {
                 noBtn.style.transition = "opacity 2s ease";
                 noBtn.style.opacity = "0";
             }, 500);
-        }
-        else {
+        } else {
             messageEl.innerText = steps[step-1];
             button.innerText = "Next 🌟";
         }
@@ -139,14 +137,14 @@ function nextStep() {
 }
 
 function showFinalStep() {
-    // Remove YES/NO buttons
+    // Remove all buttons
     document.querySelectorAll("button").forEach(b => b.remove());
 
-    // Step 7: final message "Saranghe babi 🥹"
-    messageEl.innerText = steps[step-1];
+    // Show final message
+    messageEl.innerText = "Saranghe babi 🥹";
 
     // Add interactive sparkles
-    for(let i=0; i<20; i++) setTimeout(createSparkle, i*100);
+    for(let i = 0; i < 20; i++) setTimeout(createSparkle, i*100);
 
     // Clicking anywhere adds more sparkles
     document.body.onclick = createSparkle;
