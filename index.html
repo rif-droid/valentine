@@ -1,188 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be My Valentine 💖</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine 💖</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #FFDEE9, #B5FFFC);
+        overflow: hidden;
+    }
 
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #FFDEE9, #B5FFFC);
-            overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    .card {
+        background: rgba(255,255,255,0.95);
+        border-radius: 20px;
+        padding: 40px 30px;
+        max-width: 450px;
+        text-align: center;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        position: relative;
+    }
 
-        .card {
-            background: rgba(255,255,255,0.95);
-            border-radius: 25px;
-            padding: 40px 30px;
-            max-width: 450px;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            position: relative;
-        }
+    h2 {
+        font-size: 24px;
+        color: #FF4C6D;
+        min-height: 70px;
+        margin-bottom: 25px;
+        transition: all 0.5s ease;
+    }
 
-        h2 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 26px;
-            color: #FF4C6D;
-            min-height: 60px;
-            margin-bottom: 25px;
-        }
+    button {
+        background-color: #FF6B81;
+        color: white;
+        border: none;
+        padding: 14px 28px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 18px;
+        position: relative;
+        transition: all 0.3s ease;
+    }
 
-        button {
-            background-color: #FF6B81;
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 18px;
-            position: relative;
-            transition: transform 0.3s ease;
-        }
+    button:hover {
+        transform: scale(1.1);
+    }
 
-        button:hover {
-            transform: scale(1.1) rotate(-5deg);
-        }
+    .sparkle {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: #FFD700;
+        border-radius: 50%;
+        opacity: 0.8;
+        animation: sparkleAnim 2s linear infinite;
+    }
 
-        .hug {
-            display: none;
-            width: 150px;
-            margin-top: 20px;
-        }
-
-        .heart {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: red;
-            transform: rotate(45deg);
-            left: 50%;
-            top: 50%;
-            animation: floatUp 4s linear infinite;
-        }
-        .heart::before,
-        .heart::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: red;
-            border-radius: 50%;
-        }
-        .heart::before { top: -10px; left: 0; }
-        .heart::after { left: 10px; top: 0; }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(45deg); opacity: 1; }
-            100% { transform: translateY(-400px) rotate(45deg); opacity: 0; }
-        }
-
-        .sparkle {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #FFD700;
-            border-radius: 50%;
-            opacity: 0.8;
-            animation: sparkleAnim 2s linear infinite;
-        }
-
-        @keyframes sparkleAnim {
-            0% { transform: scale(0.5); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(0.5); opacity: 0.5; }
-        }
-    </style>
+    @keyframes sparkleAnim {
+        0% { transform: scale(0.5); opacity: 0.5; }
+        50% { transform: scale(1.2); opacity: 1; }
+        100% { transform: scale(0.5); opacity: 0.5; }
+    }
+</style>
 </head>
 <body>
-    <div class="card">
-        <h2 id="message">Hey Capy… 🌸 I’ve been thinking about you</h2>
-        <button id="playButton" onclick="nextStep()">Do not touch this button</button>
-        <img src="https://i.postimg.cc/htGHK5W9/hug.png" alt="Hug" class="hug" id="hug">
-    </div>
+<div class="card">
+    <h2 id="message">Hey Capy… 🌸 I’ve been thinking about you</h2>
+    <button id="nextBtn" onclick="nextStep()">Next 🌟</button>
+</div>
 
-    <script>
-        const messages = [
-            "You are my sunshine 🌞, lighting up every little corner of my day",
-            "Every smile you give is a gentle breeze in my heart…",
-            "I’ve got a special question for you…",
-            "Will you be my Valentine? 💖"
-        ];
+<script>
+const steps = [
+    "You are my sunshine 🌞, lighting up every little corner of my day",
+    "You made me realize that a person can feel like home 🏡",
+    "Ar nai 🌚",
+    "Now that you came here, I want to ask you something…",
+    "Will you be my Valentine? 💖",
+    "I’m so happy you’re here ❤️"
+];
 
-        let step = 0;
-        const messageEl = document.getElementById('message');
-        const button = document.getElementById('playButton');
-        const hug = document.getElementById('hug');
+let step = 0;
+const messageEl = document.getElementById('message');
+const button = document.getElementById('nextBtn');
 
-        function typeMessage(text, callback) {
-            let i = 0;
-            messageEl.innerText = "";
-            const interval = setInterval(() => {
-                messageEl.innerText += text[i];
-                i++;
-                if(i >= text.length) {
-                    clearInterval(interval);
-                    if(callback) callback();
-                }
-            }, 50);
+function typeMessage(text, callback) {
+    messageEl.innerText = "";
+    let i = 0;
+    const interval = setInterval(() => {
+        messageEl.innerText += text[i];
+        i++;
+        if(i >= text.length) {
+            clearInterval(interval);
+            if(callback) callback();
         }
+    }, 50);
+}
 
-        function nextStep() {
-            if(step < messages.length) {
-                typeMessage(messages[step], () => {
-                    // playful floating for button
-                    if(step < messages.length - 1) {
-                        button.style.position = 'absolute';
-                        button.style.top = Math.random() * 150 + 'px';
-                        button.style.left = Math.random() * 200 + 'px';
-                    }
-                    // change last button to YES
-                    if(step === messages.length - 1) {
-                        button.innerText = "YES ❤️";
-                    }
-                });
-                step++;
-            } else {
-                // show hug sticker
-                hug.style.display = "block";
+function createSparkle() {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.left = Math.random() * window.innerWidth + 'px';
+    sparkle.style.top = Math.random() * window.innerHeight + 'px';
+    sparkle.style.animationDuration = (1 + Math.random() * 2) + 's';
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 2000);
+}
+
+// continuously create subtle sparkles
+setInterval(createSparkle, 1000);
+
+function nextStep() {
+    step++;
+    if(step <= steps.length) {
+        // Step 3 (index 2) next is playful button
+        if(step === 3) {
+            typeMessage(steps[step-1], () => {
+                button.innerText = "Do not touch this button";
+                // playful float
+                button.style.position = "relative";
+                button.style.left = "0px";
+                button.onmouseover = () => {
+                    button.style.left = Math.random()*100 + "px";
+                    button.style.top = Math.random()*10 + "px";
+                };
+            });
+        }
+        // Step 5 (index 4) Valentine question with YES/NO
+        else if(step === 5) {
+            typeMessage(steps[step-1], () => {
+                // replace button with YES/NO
                 button.style.display = "none";
-                // add hearts and sparkles
-                for(let i=0;i<20;i++) createHeart();
-                for(let i=0;i<15;i++) createSparkle();
-            }
+
+                const yesBtn = document.createElement("button");
+                yesBtn.innerText = "YES ❤️";
+                yesBtn.style.marginRight = "20px";
+                yesBtn.onclick = loveAnimation;
+                document.querySelector(".card").appendChild(yesBtn);
+
+                const noBtn = document.createElement("button");
+                noBtn.innerText = "NO ❌";
+                noBtn.onmouseover = () => {
+                    noBtn.style.position = "absolute";
+                    noBtn.style.left = Math.random()*300 + "px";
+                    noBtn.style.top = Math.random()*150 + "px";
+                };
+                document.querySelector(".card").appendChild(noBtn);
+            });
         }
-
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.style.left = Math.random() * window.innerWidth + 'px';
-            heart.style.animationDuration = (2 + Math.random() * 3) + 's';
-            document.body.appendChild(heart);
-            setTimeout(()=>heart.remove(),4000);
+        else {
+            typeMessage(steps[step-1], () => {
+                button.innerText = "Next 🌟";
+            });
         }
+    }
+}
 
-        function createSparkle() {
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle';
-            sparkle.style.left = Math.random() * window.innerWidth + 'px';
-            sparkle.style.top = Math.random() * window.innerHeight + 'px';
-            sparkle.style.animationDuration = (1 + Math.random()*2) + 's';
-            document.body.appendChild(sparkle);
-            setTimeout(()=>sparkle.remove(),2000);
-        }
+function loveAnimation() {
+    // remove buttons
+    const btns = document.querySelectorAll("button");
+    btns.forEach(b => b.remove());
 
-        // continuous subtle heart spawn for dynamic effect
-        setInterval(() => { createHeart(); }, 1000);
+    // typing final message
+    typeMessage(steps[step-1]);
 
-    </script>
+    // create love sparkles rising
+    for(let i=0; i<20; i++) {
+        setTimeout(createSparkle, i*100);
+    }
+
+    // add click interaction for extra sparkles
+    document.body.onclick = createSparkle;
+}
+</script>
 </body>
 </html>
