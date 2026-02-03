@@ -33,6 +33,7 @@
         min-height: 70px;
         margin-bottom: 25px;
         transition: all 0.5s ease;
+        word-wrap: break-word;
     }
 
     button {
@@ -45,6 +46,7 @@
         font-size: 18px;
         position: relative;
         transition: all 0.3s ease;
+        margin: 5px;
     }
 
     button:hover {
@@ -81,6 +83,7 @@ const steps = [
     "Ar nai 🌚",
     "Now that you came here, I want to ask you something…",
     "Will you be my Valentine? 💖",
+    "Saranghe babi 🥹",
     "I’m so happy you’re here ❤️"
 ];
 
@@ -111,45 +114,47 @@ function createSparkle() {
     setTimeout(() => sparkle.remove(), 2000);
 }
 
-// continuously create subtle sparkles
+// continuous subtle sparkles
 setInterval(createSparkle, 1000);
 
 function nextStep() {
     step++;
     if(step <= steps.length) {
-        // Step 3 (index 2) next is playful button
-        if(step === 3) {
+        if(step === 3) { // Step 4: playful "Do not touch this button"
             typeMessage(steps[step-1], () => {
                 button.innerText = "Do not touch this button";
-                // playful float
                 button.style.position = "relative";
                 button.style.left = "0px";
-                button.onmouseover = () => {
-                    button.style.left = Math.random()*100 + "px";
-                    button.style.top = Math.random()*10 + "px";
-                };
+                button.onmouseover = null; // no hover effect
             });
         }
-        // Step 5 (index 4) Valentine question with YES/NO
-        else if(step === 5) {
+        else if(step === 5) { // Step 6: Valentine question
             typeMessage(steps[step-1], () => {
-                // replace button with YES/NO
                 button.style.display = "none";
 
                 const yesBtn = document.createElement("button");
                 yesBtn.innerText = "YES ❤️";
                 yesBtn.style.marginRight = "20px";
-                yesBtn.onclick = loveAnimation;
+                yesBtn.onclick = () => { showSaranghe(); };
                 document.querySelector(".card").appendChild(yesBtn);
 
                 const noBtn = document.createElement("button");
                 noBtn.innerText = "NO ❌";
-                noBtn.onmouseover = () => {
-                    noBtn.style.position = "absolute";
-                    noBtn.style.left = Math.random()*300 + "px";
-                    noBtn.style.top = Math.random()*150 + "px";
-                };
                 document.querySelector(".card").appendChild(noBtn);
+
+                // make NO button float automatically
+                let dirX = 2;
+                let dirY = 1.5;
+                setInterval(() => {
+                    const rect = noBtn.getBoundingClientRect();
+                    let left = rect.left + dirX;
+                    let top = rect.top + dirY;
+                    if(left < 0 || left > window.innerWidth - rect.width) dirX *= -1;
+                    if(top < 0 || top > window.innerHeight - rect.height) dirY *= -1;
+                    noBtn.style.position = "absolute";
+                    noBtn.style.left = left + "px";
+                    noBtn.style.top = top + "px";
+                }, 20);
             });
         }
         else {
@@ -160,20 +165,25 @@ function nextStep() {
     }
 }
 
-function loveAnimation() {
-    // remove buttons
-    const btns = document.querySelectorAll("button");
-    btns.forEach(b => b.remove());
+function showSaranghe() {
+    // remove YES/NO buttons
+    document.querySelectorAll("button").forEach(b => b.remove());
 
-    // typing final message
+    // show "Saranghe babi 🥹"
+    typeMessage(steps[step-1], () => {
+        step++;
+        setTimeout(loveAnimation, 800);
+    });
+}
+
+function loveAnimation() {
+    // show final love message
     typeMessage(steps[step-1]);
 
-    // create love sparkles rising
-    for(let i=0; i<20; i++) {
-        setTimeout(createSparkle, i*100);
-    }
+    // sparkles
+    for(let i=0; i<20; i++) setTimeout(createSparkle, i*100);
 
-    // add click interaction for extra sparkles
+    // clicking anywhere creates sparkles
     document.body.onclick = createSparkle;
 }
 </script>
